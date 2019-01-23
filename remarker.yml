@@ -1,0 +1,14 @@
+---
+port: 6275
+dest: build
+source: slides.md
+title: 'Infrastructure Testing for CI/CD Pipelines'
+assets: ['assets']
+# css: ''
+cssFiles: [ css/remark.css ]
+# script: ''
+# scriptFiles: []
+# remarkConfig: {}
+# remarkPath: moduleDir + '/vendor/remark.js'
+livereload: true
+livereloadPort: 35729
