@@ -19,6 +19,8 @@ class: center, middle
 # **Cloud** Infrastructure Testing 
 # **in** CI/CD Pipelines
 
+## Chuck Meyer (AWS)
+
 ---
 
 # Agenda
@@ -173,11 +175,22 @@ Decompose into multiple files and test either statically or in a live account.
 *Validate the behavior of the complete infrastructure*
 
 Deploy the full infrastructure and test it end-to-end. 
-(Preferably in a congtrolled test account)
+(Preferably in a controlled test account)
 
 * [TestKitchen](https://kitchen.ci/) (Chef)
 * [TaskCat](https://github.com/aws-quickstart/taskcat) (CloudFormation)
 * [Kitchen-Terraform](https://github.com/newcontext-oss/kitchen-terraform)
+
+---
+
+# What to test?
+
+* Resource misconfiguration (Will it deploy?)
+* Software defined network (Unexpected ingress or egress?)
+* Permissions (Too many wildcards)
+* Encryption
+* Dependencies (Is everything else there?)
+* Lifecycle (Are you going to delete my database?)
 
 ---
 background-image: url(assets/infra-cicd.png)
