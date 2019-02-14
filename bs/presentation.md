@@ -1,79 +1,201 @@
-title: My Presentation
+title: Infrastructure Code Testing in CI/CD Pipelines
 class: animation-fade
 layout: true
 
 <!-- This slide will serve as the base layout for all your slides -->
-.bottom-bar[
+<!-- .bottom-bar[
   {{title}}
 ]
-
+-->
 ---
-
-class: impact
+class: left, middle
 
 # {{title}}
-## With a good subtitle :-)
+Chuck Meyer, Sr. Dev Advocate AWS CloudFormation
 
 ---
 
-# The basics
+# Agenda
 
-## Getting started
+1. Who I am
+2. Infrastructure as code
+3. Automating infrastructure
+4. Layering in testing
+5. Putting it all together
 
-Use [Markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) to write your slides. Don't be afraid, it's really easy!
+---
+<!--
+background-image: url(assets/8-bit-chuck.jpg)
+background-position: right
+background-repeat: no-repeat
+-->
+# Who I am
 
---
+ <img alt="[8-bit Chuck]" src="assets/8-bit-chuck.jpg" width="150" align="right">
 
-## Making points
+**Chuck Meyer**  
+[cmmeyer@amazon.com](mailto:cmmeyer@amazon.com)  
+Sr Developer Advocate, AWS CloudFormation
 
-Look how you can make *some* points:
---
+* 5 years at AWS
+* Infrastructure as Code and DevOps
+* Security Automation / DevSecOps
+* 20+ Years in Technology
+* Recent Ohio boomerang
 
-- Create slides with your **favorite text editor**
---
-
-- Focus on your **content**, not the tool
---
-
-- You can finally be **productive**!
+<img alt="[twitter]" src="assets/twitter-logo.png" width="40" align="left">@[chuckm](https://twitter.com/chuckm)
 
 ---
 
-# There's more
+# Infrastructure as Code
 
-## Syntax highlighting
+*Declarative or imperative statements describing hardware, software and services and their relationships.*
 
-You can also add `code` to your slides:
-```html
-<div class="impact">Some HTML code</div>
+--
+
+```yaml
+Resource: MyWebServer
+    Class: Server
+    Type: ExtraBig
+    Ports:
+        - 443
 ```
 
-## CSS classes
+--
+(or maybe)
 
-You can use .alt[shortcut] syntax to apply .big[some style!]
-
-...or just <span class="alt">HTML</span> if you prefer.
+```python
+server_names = [ 'Red', 'Blue', 'Green']
+for name in server_names:
+    launch_server(name, 'web')
+```
 
 ---
 
-# And more...
+# Infrastructure as Code Flavors
 
-## 12-column grid layout
+## Declarative
 
-Use to the included **grid layout** classes to split content easily:
-.col-6[
-  ### Left column
+* Chef/Puppet/Ansible/Salt
+* Terraform
+* CloudFormation (AWS)
+* Azure Resource Manager (ARM)
+* Cloud Deployment Manager (GCP)
 
-  - I'm on the left
-  - It's neat!
-]
-.col-6[
-  ### Right column
+## Imperative
 
-  - I'm on the right
-  - I love it!
-]
+* Pulumi
+* Cloud Development Kit (AWS)
 
-## Learn the tricks
+--
 
-See the [wiki](https://github.com/gnab/remark/wiki) to learn more of what you can do with .alt[Remark.js]
+*(we can probably fight about this)*
+
+---
+
+# Automating Infrastructure
+
+*Infrastructure is code, so deploy it like code*
+
+* Source control
+* Orchestration
+* Permissioning
+* Deployment and Promotion
+
+--
+
+*(So basically, CI/CD)*
+
+---
+
+# Layering in Testing
+
+*Infrastructure is code, so test it like code*
+
+* Validation/Linting
+* Unit Tests
+* Integration Tests
+
+---
+
+# Validation
+
+*Is my code syntactically viable?*
+
+* Built in validators  
+  * `terraform validate`
+  * `aws cloudformation validate-template`
+
+* Linters
+  * [FoodCritic](http://www.foodcritic.io/) (Chef)
+  * [cfn-lint](https://pypi.org/project/cfn-lint/) (CloudFormation)
+  * [terraform-validator](https://pypi.org/project/terraform-validator/)
+
+---
+
+# Unit Testing
+
+*Validate the behavior of individual components*
+
+But you can't mock infrastructure...  
+
+---
+
+Well, you can...
+
+.center[![Mock](assets/mock.gif)]
+
+--
+
+... but it's not nice.
+---
+
+# Unit Testing
+
+*Validate the behavior of individual components*
+
+But you can't mock infrastructure...  
+Decompose into multiple files and test either statically or in a live account.
+
+* [ChefSpec](https://docs.chef.io/chefspec.html) (static)
+* [cfn_nag](https://github.com/stelligent/cfn_nag) (static)
+* [Terratest](https://github.com/gruntwork-io/terratest) (live)
+
+---
+
+# Integration Testing
+
+*Validate the behavior of the complete infrastructure*
+
+Deploy the full infrastructure and test it end-to-end. 
+(Preferably in a controlled test account)
+
+* [TestKitchen](https://kitchen.ci/) (Chef)
+* [TaskCat](https://github.com/aws-quickstart/taskcat) (CloudFormation)
+* [Kitchen-Terraform](https://github.com/newcontext-oss/kitchen-terraform)
+
+---
+
+# What to test?
+
+* Resource misconfiguration (Will it deploy?)
+* Software defined network (Unexpected ingress or egress?)
+* Permissions (Too many wildcards)
+* Encryption
+* Dependencies (Is everything else there?)
+* Lifecycle (Are you going to delete my database?)
+
+---
+background-image: url(assets/infra-cicd.png)
+background-position: right
+background-repeat: no-repeat
+background-size: contain
+
+# Infrastructure CI/CD – DIY Tools
+
+---
+class: center, middle
+
+![Questions?](assets/questions.jpg)
+
+@chuckm | cmmeyer@amazon.com
